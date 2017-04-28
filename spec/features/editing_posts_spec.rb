@@ -8,7 +8,7 @@ feature 'Editing posts' do
 
     visit '/'
     # click the image of the post we created with factory_girl
-    find(:xpath, "html/body/a[2]").click
+    find(:xpath, "/html/body/div/div/div/div[2]/a").click
     # click the 'edit post' link
     click_link 'Edit Post'
   end

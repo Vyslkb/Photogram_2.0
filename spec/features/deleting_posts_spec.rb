@@ -5,7 +5,7 @@ feature 'Delete Post' do
     post = create(:post, caption: "It should be deleted")
 
     visit '/'
-    find(:xpath, "html/body/a[2]").click
+    find(:xpath, "/html/body/div/div/div/div[2]/a").click
     click_link 'Edit Post'
   end
 
