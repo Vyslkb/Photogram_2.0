@@ -24,4 +24,13 @@ feature 'Editing posts' do
     # expect the page to have content saying “Oh god, you weren’t meant to see this picture!”
     expect(page).to have_content("Oh god, you weren’t meant to see this picture!")
   end
+
+    it "won't update a post without an image" do
+      attach_file('Image', 'spec/files/images/error.txt')
+      click_button 'Update Post'
+
+      expect(page).to have_content("Something is wrong with your form!")
+    end
+
+
 end
