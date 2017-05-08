@@ -12,11 +12,11 @@ feature 'Creating a new user' do
     # Fill in the 'User name' field with 'zagpro'
     fill_in 'User name', with: 'zagpro'
     # Fill in the 'Email' field with 'sxyrailsdev@myspace.com'
-    fill_in 'Email', with: 'zagorsky28@gmail.com'
+    fill_in 'Email', with: 'vova@gmail.com'
     # Fill in the 'Password' field with 'supersecret'
-    fill_in 'Password', with: 'Voodoo1408', match: :first
+    fill_in 'Password', with: 'supersecret', match: :first
     # Fill in the 'Password confirmation' field with 'supersecret'
-    fill_in 'Password confirmation', with: 'Voodoo1408'
+    fill_in 'Password confirmation', with: 'supersecret'
 
     # Click the 'Sign up' button
     click_button 'Sign up'
@@ -26,11 +26,11 @@ feature 'Creating a new user' do
 
   scenario 'requires a user name to successfully create an account' do
     # Fill in the 'Email' field with 'sxyrailsdev@myspace.com'
-    fill_in 'Email', with: 'zagorsky28@gmail.com'
+    fill_in 'Email', with: 'vova@gmail.com'
     # Fill in the 'Password' field with 'supersecret'
-    fill_in 'Password', with: 'Voodoo1408', match: :first
+    fill_in 'Password', with: 'supersecret', match: :first
     # Fill in the 'Password confirmation' field with 'supersecret'
-    fill_in 'Password confirmation', with: 'Voodoo1408'
+    fill_in 'Password confirmation', with: 'supersecret'
 
     # Click the 'Sign up' button
     click_button 'Sign up'
@@ -54,7 +54,7 @@ feature 'Creating a new user' do
     expect(page).to have_content("minimum is 4 characters")
   end
 
-  scenario 'requires a user name to be less than 12 characters' do
+  scenario 'requires a user name to be less than 16 characters' do
     fill_in 'User name', with: 'h' * 17
     fill_in 'Email', with: 'zagorsky28@gmail.com'
     fill_in 'Password', with: 'Voodoo1408', match: :first
