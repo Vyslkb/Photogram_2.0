@@ -3,29 +3,48 @@ require 'rails_helper'
 feature 'Editing posts' do
   background do
     user = create(:user)
-    post = create(:post, user_id: 1)
+    user_2 = create(:user,  email: 'yanina@mail.ru',
+                                        user_name: 'yanieegerton',
+                                        password: 'supersecret',
+                                        id: user.id + 1)
+
+    post = create(:post, user_id: user.id, id: 1)
+    post_2 = create(:post, user_id: user.id + 1, id: 2)
 
     sign_in_with user
 
     visit '/'
-    find(:xpath, "/html/body/div/div/div/div/div[2]/a").click
-    click_link 'Edit Post'
   end
 
-  scenario 'Visit root, click on image, click to link edit post, change caption and click to update post' do
-    fill_in 'Caption', with: "Oh god, you weren’t meant to see this picture!"
-    click_button 'Update Post'
+  scenario 'can edit a post as the owner' do
+    find(:xpath, "/html/body/div/div/div[2]/div/div[2]/a").click
+    expect(page).to have_content("Edit Post")
 
-    expect(page).to have_content("Post updated hombre.")
-    expect(page).to have_content("Oh god, you weren’t meant to see this picture!")
+    click_link "Edit Post"
+    fill_in "Caption", with: "Hello, zagpro"
+    click_button "Update Post"
+
+    expect(page).to have_content('Post updated hombre')
+    expect(page).to have_content("Hello, zagpro")
   end
 
-    it "won't update a post without an image" do
-      attach_file('Image', 'spec/files/images/error.txt')
-      click_button 'Update Post'
+  scenario "cannot edit a post that doesn't belong to you via the show page" do
+    find(:xpath, "/html/body/div/div/div[1]/div/div[2]/a").click
+    expect(page).to_not have_content("Edit Post")
+  end
 
-      expect(page).to have_content("Something is wrong with your form!")
-    end
+  scenario "cannot edit a post that doesn't belong to you via url path" do
+    visit '/posts/2/edit'
+    expect(page.current_path).to eq root_path
+    expect(page).to have_content("That post doesn't belong to you!")
+  end
 
+  scenario "a post won't update without an attached image" do
+    find(:xpath, "/html/body/div/div/div[2]/div/div[2]/a").click
+    click_link "Edit Post"
+    attach_file('Image', 'spec/files/images/error.txt')
+    click_button "Update Post"
 
+    expect(page).to have_content("Something is wrong with your form!")
+  end
 end
